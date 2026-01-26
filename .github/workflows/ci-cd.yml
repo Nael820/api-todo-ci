@@ -10,7 +10,6 @@ env:
   NODE_VERSION: '18'
 
 jobs:
-  # Job 1 : Lint (vérification syntaxe)
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -30,7 +29,6 @@ jobs:
       - name: Check syntax
         run: node --check app.js server.js
 
-  # Job 2 : Tests
   test:
     name: Tests
     runs-on: ubuntu-latest
@@ -51,13 +49,12 @@ jobs:
       - name: Run tests
         run: npm test
       
-- name: Upload coverage
+      - name: Upload coverage
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: coverage/
 
-  # Job 3 : Build
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -76,9 +73,8 @@ jobs:
         run: npm ci
       
       - name: Build success
-        run: echo "✅ Build completed successfully!"
+        run: echo "Build completed successfully!"
 
-  # Job 4 : Deploy (seulement sur main)
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
@@ -90,7 +86,7 @@ jobs:
         run: |
           if [ -n "${{ secrets.RENDER_DEPLOY_HOOK }}" ]; then
             curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
-            echo "✅ Deployment triggered on Render"
+            echo "Deployment triggered on Render"
           else
-            echo "⚠️ RENDER_DEPLOY_HOOK not configured"
+            echo "RENDER_DEPLOY_HOOK not configured"
           fi
