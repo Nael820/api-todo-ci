@@ -47,7 +47,7 @@ jobs:
       - name: Trigger Staging Deploy
         run: |
           response=$(curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_STAGING }} -w "%{http_code}" -o /dev/null -s)
-          if [ $response -eq 200 ] || [ $response -eq 201 ]; then
+          if [ $response -eq 200 ] || [ $response -eq 201 ] || [ $response -eq 202 ]; then
             echo "Staging deployment triggered successfully"
           else
             echo "Staging deployment failed with status $response"
@@ -95,7 +95,7 @@ jobs:
       - name: Trigger Production Deploy
         run: |
           response=$(curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_PROD }} -w "%{http_code}" -o /dev/null -s)
-          if [ $response -eq 200 ] || [ $response -eq 201 ]; then
+          if [ $response -eq 200 ] || [ $response -eq 201 ] || [ $response -eq 202 ]; then
             echo "Production deployment triggered successfully"
           else
             echo "Production deployment failed with status $response"
